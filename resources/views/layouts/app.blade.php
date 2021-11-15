@@ -1,83 +1,78 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.0.1">
 
-    <!-- CSRF Token -->
+    {{--TODO:
+     the meta tag below added for use csrftoken in ckeditor_config.js and resolve 419 error.
+     We must also add:
+         const CSRFToken = $('meta[name="csrf-token"]').attr('content');
+     to ckeditor_config.js saeed doc.--}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title')</title>
+    <!-- Latest compiled and minified CSS -->
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <link rel="stylesheet" href="{{URL::asset('css/app.css')}}">
+    <link rel="stylesheet" href="{{URL::asset('css/all.css')}}">
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
 
-                    </ul>
+@include('partials.header')
+{{--<div class="container">--}}
+{{--    @yield('content')--}}
+{{--</div>--}}
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
 
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-3 d-md-block bg-light text-right sidebar collapse" dir="rtl">
+            <div class="sidebar-sticky pt-3">
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                {{--                 What does double question mark (??) operator mean in PHP--}}
+                {{--                 $foo = $bar ?? 'something';--}}
+                {{--                 $foo = isset($bar) ? $bar : 'something';--}}
+                {{--                 https://stackoverflow.com/questions/53610622/what-does-double-question-mark-operator-mean-in-php--}}
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
+                {{--                @foreach($posts as $post)--}}
+                @foreach($posts ?? array() as $post)
+                    <div class="container" class="row">
+                        <div class="col-md-12 text-right">
+
+                            <p><a href="{{ route('blog.post', ['id' => $post->id]) }}">{{ $post->title }}</a></p>
+                        </div>
+                    </div>
+                @endforeach
+
             </div>
         </nav>
 
-        <main class="py-4">
-            @yield('content')
+        <main role="main" class="col-md-9 mr-sm-auto col-lg-9 px-md-4">
+            <div
+                class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Dashboard</h1>
+            </div>
+            <div class="container">
+                @yield('content')
+            </div>
+            <br>
+            <br>
+            <br>
+
+
         </main>
     </div>
+</div>
+<script src="{{ asset('js/app.js') }}"></script>
+
+
 </body>
 </html>
+
