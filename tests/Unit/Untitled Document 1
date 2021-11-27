@@ -1,0 +1,14 @@
+https://stackoverflow.com/questions/115983/how-can-i-add-a-blank-directory-to-a-git-repository
+
+
+
+As opposed to "I don't have any files to check in here, yet, but I need the directory here, files may be coming later".
+
+Currently the design of the git index (staging area) only permits files to be listed, and nobody competent enough to make the change to allow empty directories has cared enough about this situation to remedy it.
+
+Directories are added automatically when adding files inside them. That is, directories never have to be added to the repository, and are not tracked on their own.
+
+You can say "git add <dir>" and it will add files in there.
+
+If you really need a directory to exist in checkouts you should create a file in it. .gitignore works well for this purpose; you can leave it empty, or fill in the names of files you expect to show up in the directory.
+
